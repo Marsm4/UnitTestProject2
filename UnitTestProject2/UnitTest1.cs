@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PasswordLibrary;
 using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace UnitTestProject2
@@ -190,6 +191,29 @@ namespace TestPassword
             Password password = new Password();
             password.UserPassword = "d23j";
             Assert.IsFalse(password.CheckPassword());
+        }
+    }
+}
+namespace WordListLibrary
+{
+    public class WordList
+    {
+        public List<string> wordList { get; set; }
+
+        public WordList(List<string> words)
+        {
+            wordList = words;
+        }
+        public int DeleteWords(int masLen)
+        {
+            int count = 0;
+            for (int i = 0; i < wordList.Count; i++)
+                if (wordList[i].Length > masLen)
+                {
+                    count++;
+                    wordList.RemoveAt(i);
+                }
+            return count;
         }
     }
 }
