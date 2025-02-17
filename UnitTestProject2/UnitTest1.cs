@@ -244,15 +244,45 @@ namespace TestWordList
             Assert.AreEqual(0, count);
         }
 
+      
         [TestMethod]
         public void TestDeleteAll()
         {
-            List<string> input = new List<string> {  "world", "mouse", "library", "hello" };
-            List<string> output = new List<string> {  };
+            List<string> input = new List<string>
+            {"world","mouse","library", "hello"};
+            List<string> output = new List<string> { };
             WordList words = new WordList(input);
             int count = words.DeleteWords(4);
-            CollectionAssert.AreEquivalent(output, words.wordList);
+            CollectionAssert.AreEqual(output, words.wordList);
             Assert.AreEqual(4, count);
         }
+    }
+    public class WordList
+    {
+       
+        public List<string> wordList { get; set; }
+     
+        public WordList(List<string> words)
+        {
+            wordList = words;
+        }
+       
+        public int DeleteWords(int maxLen)
+        {
+            int count = 0;
+
+            for (int i = wordList.Count - 1; i >= 0; i--)
+            {
+              
+                if (wordList[i].Length > maxLen)
+                {
+                    count++;
+                    wordList.RemoveAt(i); 
+                }
+            }
+
+            return count;
+        }
+
     }
 }
