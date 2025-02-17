@@ -3,6 +3,7 @@ using PasswordLibrary;
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using WordListLibrary;
 
 namespace UnitTestProject2
 {
@@ -214,6 +215,44 @@ namespace WordListLibrary
                     wordList.RemoveAt(i);
                 }
             return count;
+        }
+    }
+}
+namespace TestWordList
+{
+    [TestClass]
+    public class UnitTestWords
+    {
+        [TestMethod]
+        public void TestDelete2()
+        {
+            List<string> input = new List<string> { "word", "world", "and", "library", "help" };
+            List<string> output = new List<string> { "word", "and", "help" };
+            WordList words = new WordList(input);
+            int count = words.DeleteWords(4);
+            CollectionAssert.AreEquivalent(output, words.wordList);
+            Assert.AreEqual(2, count);
+        }
+        [TestMethod]
+        public void TestDelete0()
+        {
+            List<string> input = new List<string> { "word", "world", "and", "library", "hello" };
+            List<string> output = new List<string> { "word", "world", "and", "library", "hello" };
+            WordList words = new WordList(input);
+            int count = words.DeleteWords(7);
+            CollectionAssert.AreEquivalent(output, words.wordList);
+            Assert.AreEqual(0, count);
+        }
+
+        [TestMethod]
+        public void TestDeleteAll()
+        {
+            List<string> input = new List<string> {  "world", "mouse", "library", "hello" };
+            List<string> output = new List<string> {  };
+            WordList words = new WordList(input);
+            int count = words.DeleteWords(4);
+            CollectionAssert.AreEquivalent(output, words.wordList);
+            Assert.AreEqual(4, count);
         }
     }
 }
