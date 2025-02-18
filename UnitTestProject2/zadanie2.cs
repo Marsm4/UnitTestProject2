@@ -1,52 +1,60 @@
-﻿//using Microsoft.VisualStudio.TestTools.UnitTesting;
-//using System;
-
-//namespace UnitTestProject2
-//{
-//    [TestClass]
-//    public class UnitTest1
-//    {
-//        static int IsSimple(int x)
-//        {
-//            bool simple = true;
-//            for (int i = 2; i <= x; i++)
-//                if (x % i == 0)
-//                {
-//                    simple = false;
-//                    break;
-//                }
-//            return simple;
-//        }
-//        [TestMethod]
-//        public void Simple17()
-//        {
-//            Assert.IsTrue(IsSimple(17));
-//        }
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+namespace modultest
+{
+    public class MatrixHelper
+    {
+        public static bool IsSymmetric(int[,] matrix)
+        {
+            int n = matrix.GetLength(0);
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < i; j++)
+                {
+                    if (matrix[i, j] != matrix[j, i])
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+    }
 
 
-//        [TestMethod]
-//        public void Simple72()
-//        {
-//            Assert.IsTrue(IsSimple(72));
-//        }
+    [TestClass]
+    public class MatrixHelperTests
+    {
+        [TestMethod]
+        public void IsSymmetric_SymmetricMatrix_ReturnsTrue()
+        {
+            int[,] matrix = { { 1, 2, 3 }, { 2, 4, 5 }, { 3, 5, 6 } };
+            bool result = MatrixHelper.IsSymmetric(matrix);
+            Assert.IsTrue(result);
+        }
 
+        [TestMethod]
+        public void IsSymmetric_NonSymmetricMatrix_ReturnsFalse()
+        {
+            int[,] matrix = { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } };
+            bool result = MatrixHelper.IsSymmetric(matrix);
+            Assert.IsFalse(result);
+        }
 
-//        [TestMethod]
-//        public void Simple1()
-//        {
-//            Assert.IsTrue(IsSimple(1));
-//        }
+        [TestMethod]
+        public void IsSymmetric_1x1Matrix_ReturnsTrue()
+        {
+            int[,] matrix = { { 1 } };
+            bool result = MatrixHelper.IsSymmetric(matrix);
+            Assert.IsTrue(result);
+        }
 
-//        [TestMethod]
-//        public void Simple0()
-//        {
-//            Assert.IsTrue(IsSimple(0));
-//        }
-
-//        [TestMethod]
-//        public void SimpleNegative()
-//        {
-//            Assert.IsTrue(IsSimple(-5));
-//        }
-//    }
-//}
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void IsSymmetric_NonSquareMatrix_ThrowsException()
+        {
+            int[,] matrix = { { 1, 2 }, { 3, 4 }, { 5, 6 } };
+            MatrixHelper.IsSymmetric(matrix);
+        }
+    }
+}
